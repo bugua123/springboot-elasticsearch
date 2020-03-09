@@ -13,6 +13,7 @@ import org.elasticsearch.client.ClusterClient;
 import org.elasticsearch.client.IndicesClient;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.cluster.health.ClusterHealthStatus;
 import org.elasticsearch.common.xcontent.XContentType;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,8 +41,11 @@ public class ElasticTest {
         ClusterHealthRequest request = new ClusterHealthRequest();
         ClusterHealthResponse response = restHighLevelClient.cluster().health(request, RequestOptions.DEFAULT);
         String clusterName = response.getClusterName();
-        log.info("===========测试连接成功===============> {}",response);
+        ClusterHealthStatus status = response.getStatus();
+        log.info("===========测试连接成功===============> {}", JSON.toJSONString(response));
         log.info("===========输出ClusterName===============> {}",clusterName);
+        log.info("===========输出status===============> {}",status);
+
 
 
     }
