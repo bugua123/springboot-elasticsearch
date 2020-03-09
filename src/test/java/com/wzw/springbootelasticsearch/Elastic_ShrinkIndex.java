@@ -24,6 +24,17 @@ import java.io.IOException;
  * 1、判断索引是否存在
  *    如果存在，收缩索引
  *    注意：   收缩索引时，必须为只读
+ *
+ *    PUT /goods/_settings
+ * {
+ *
+ *   "settings": {
+ *     "index.blocks.write": true
+ *
+ *   }
+ *
+ * }
+ *
  */
 @SpringBootTest
 @Slf4j
@@ -72,17 +83,18 @@ public class Elastic_ShrinkIndex {
         /**
          * 设置参数
          */
-        request.timeout(TimeValue.timeValueMillis(2));
-        request.timeout("2m");
-        request.masterNodeTimeout(TimeValue.timeValueMillis(1));
-        request.masterNodeTimeout("1m");
-        request.setWaitForActiveShards(2);
-        request.setWaitForActiveShards(ActiveShardCount.DEFAULT);
-        request.getTargetIndexRequest().settings(Settings.builder()
-        .put("index.number_of_shards",2)
-        .putNull("index.routing.allocation.require._name")
-        );
-        request.getTargetIndexRequest().alias(new Alias("target_alias"));
+//        request.timeout(TimeValue.timeValueMillis(2));
+//        request.timeout("2m");
+//        request.masterNodeTimeout(TimeValue.timeValueMillis(1));
+//        request.masterNodeTimeout("1m");
+//        request.setWaitForActiveShards(2);
+//        request.setWaitForActiveShards(ActiveShardCount.DEFAULT);
+//        request.getTargetIndexRequest().settings(Settings.builder()
+//        .put("index.number_of_shards",2)
+//        .putNull("index.routing.allocation.require._name")
+//        );
+//
+//        request.getTargetIndexRequest().alias(new Alias("target_alias"));
 
         //执行
         ResizeResponse resizeResponse = restHighLevelClient.indices().shrink(request, RequestOptions.DEFAULT);
