@@ -19,7 +19,9 @@ import java.io.InputStream;
 @Slf4j
 public class ElasticCreateIndexTest {
 
-
+    /**
+     * 基于配置文件的创建索引，暂时有问题 没进行测试
+     */
     @Autowired
     RestHighLevelClient restHighLevelClient;
 

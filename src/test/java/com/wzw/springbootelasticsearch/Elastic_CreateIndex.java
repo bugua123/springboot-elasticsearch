@@ -20,7 +20,7 @@ import java.io.IOException;
  */
 @SpringBootTest
 @Slf4j
-public class ElasticIndex {
+public class Elastic_CreateIndex {
 
 @Autowired
     RestHighLevelClient restHighLevelClient;
