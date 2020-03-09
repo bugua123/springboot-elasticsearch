@@ -23,6 +23,7 @@ import java.io.IOException;
 /**
  * 1、判断索引是否存在
  *    如果存在，收缩索引
+ *    注意：   收缩索引时，必须为只读
  */
 @SpringBootTest
 @Slf4j
@@ -40,6 +41,7 @@ public class Elastic_ShrinkIndex {
             System.out.println("索引不存在 ");
         }else {
             System.out.println("索引存在收缩索引");
+
             shrinkIndex(INDEX_TEST);
 
         }
