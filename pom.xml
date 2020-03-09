@@ -17,6 +17,7 @@
     <properties>
         <java.version>1.8</java.version>
         <elasticsearch.varsion>7.5.1</elasticsearch.varsion>
+        <fastjson.versiion>1.2.58</fastjson.versiion>
     </properties>
 
     <dependencies>
@@ -36,7 +37,6 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
 
 
         <dependency>
@@ -76,7 +76,7 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
-            <version>1.2.58</version>
+            <version>${fastjson.versiion}</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
