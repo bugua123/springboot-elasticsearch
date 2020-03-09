@@ -1,0 +1,37 @@
+{
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "keyword": {
+      //text和keyword的区别text：存储数据时候，会自动分词，并生成索引，keyword：存储数据时候，不会分词建立索引
+      "type": "text",
+      "analyzer": "ikSearchAnalyzer",
+      "search_analyzer": "ikSmartSearchAnalyzer",
+      "fields": {
+        "pinyin": {
+          "type": "text",
+          "analyzer": "pinyinComplexAnalyzer",
+          "search_analyzer": "pinyinComplexAnalyzer",
+          "store": false,
+          "term_vector": "with_offsets"
+        }
+      }
+    },
+    "ownerNature": {
+      "type": "keyword"
+    },
+    "model": {
+      "type": "keyword",
+      //不能通过这个字段搜索
+      "index": false
+    },
+    "weight": {
+      "type": "integer"
+    },
+    "createTime": {
+      "type": "date",
+      "format": "yyyy-MM-dd HH:mm:ss"
+    }
+  }
+}
