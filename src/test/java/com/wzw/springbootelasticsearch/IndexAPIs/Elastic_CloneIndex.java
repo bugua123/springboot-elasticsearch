@@ -1,18 +1,15 @@
-package com.wzw.springbootelasticsearch;
+package com.wzw.springbootelasticsearch.IndexAPIs;
 
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.action.admin.indices.alias.Alias;
 import org.elasticsearch.action.admin.indices.shrink.ResizeRequest;
 import org.elasticsearch.action.admin.indices.shrink.ResizeResponse;
-import org.elasticsearch.action.support.ActiveShardCount;
+import org.elasticsearch.action.admin.indices.shrink.ResizeType;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
-import org.elasticsearch.client.indices.CloseIndexRequest;
-import org.elasticsearch.client.indices.CloseIndexResponse;
 import org.elasticsearch.client.indices.GetIndexRequest;
 import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.common.unit.TimeValue;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,23 +19,13 @@ import java.io.IOException;
 
 /**
  * 1、判断索引是否存在
- *    如果存在，收缩索引
- *    注意：   收缩索引时，必须为只读
+ *    如果存在，克隆索引
  *
- *    PUT /goods/_settings
- * {
- *
- *   "settings": {
- *     "index.blocks.write": true
- *
- *   }
- *
- * }
  *
  */
 @SpringBootTest
 @Slf4j
-public class Elastic_ShrinkIndex {
+public class Elastic_CloneIndex {
 
 @Autowired
     RestHighLevelClient restHighLevelClient;
@@ -51,9 +38,9 @@ public class Elastic_ShrinkIndex {
         if (!existsIndex(INDEX_TEST)) {
             System.out.println("索引不存在 ");
         }else {
-            System.out.println("索引存在收缩索引");
+            System.out.println("索引存在克隆索引");
 
-            shrinkIndex(INDEX_TEST);
+            cloneIndex(INDEX_TEST);
 
         }
 
@@ -77,28 +64,28 @@ public class Elastic_ShrinkIndex {
      * @param index
      * @throws IOException
      */
-    public void shrinkIndex(String index) throws IOException {
+    public void cloneIndex(String index) throws IOException {
 
-        ResizeRequest request=new ResizeRequest("target_index",index );
+        ResizeRequest request=new ResizeRequest("target_index_1",index );
         /**
          * 设置参数
          */
+        request.setResizeType(ResizeType.CLONE);
+
 //        request.timeout(TimeValue.timeValueMillis(2));
 //        request.timeout("2m");
 //        request.masterNodeTimeout(TimeValue.timeValueMillis(1));
 //        request.masterNodeTimeout("1m");
 //        request.setWaitForActiveShards(2);
 //        request.setWaitForActiveShards(ActiveShardCount.DEFAULT);
-//        request.getTargetIndexRequest().settings(Settings.builder()
-//        .put("index.number_of_shards",2)
-//        .putNull("index.routing.allocation.require._name")
-//        );
-//
-//        request.getTargetIndexRequest().alias(new Alias("target_alias"));
+        request.getTargetIndexRequest().settings(Settings.builder()
+        .put("index.number_of_shards",2)
+        );
+        request.getTargetIndexRequest().alias(new Alias("target_alias"));
 
         //执行
-        ResizeResponse resizeResponse = restHighLevelClient.indices().shrink(request, RequestOptions.DEFAULT);
+        ResizeResponse resizeResponse = restHighLevelClient.indices().clone(request, RequestOptions.DEFAULT);
 
-        System.out.println("索引收缩信息: " + JSON.toJSONString(resizeResponse));
+        System.out.println("索引克隆信息: " + JSON.toJSONString(resizeResponse));
     }
 }

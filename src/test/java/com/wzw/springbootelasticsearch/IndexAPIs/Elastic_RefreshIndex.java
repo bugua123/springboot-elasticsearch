@@ -1,15 +1,17 @@
-package com.wzw.springbootelasticsearch;
+package com.wzw.springbootelasticsearch.IndexAPIs;
 
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
-import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
-import org.elasticsearch.action.support.master.AcknowledgedResponse;
+import org.elasticsearch.action.admin.indices.alias.Alias;
+import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
+import org.elasticsearch.action.admin.indices.shrink.ResizeRequest;
+import org.elasticsearch.action.admin.indices.shrink.ResizeResponse;
+import org.elasticsearch.action.admin.indices.shrink.ResizeType;
+import org.elasticsearch.action.support.IndicesOptions;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
-import org.elasticsearch.client.indices.CreateIndexRequest;
-import org.elasticsearch.client.indices.CreateIndexResponse;
 import org.elasticsearch.client.indices.GetIndexRequest;
-import org.elasticsearch.common.unit.TimeValue;
+import org.elasticsearch.common.settings.Settings;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,11 +21,13 @@ import java.io.IOException;
 
 /**
  * 1、判断索引是否存在
- * 如果存在，删除索引
+ *    如果存在，Refresh索引
+ *
+ *
  */
 @SpringBootTest
 @Slf4j
-public class Elastic_DeleteIndex {
+public class Elastic_RefreshIndex {
 
 @Autowired
     RestHighLevelClient restHighLevelClient;
@@ -32,12 +36,13 @@ public class Elastic_DeleteIndex {
     @Test
     public void testIndex() throws IOException {
         // 判断是否存在索引
-        String INDEX_TEST="goods_test";
+        String INDEX_TEST="goods";
         if (!existsIndex(INDEX_TEST)) {
             System.out.println("索引不存在 ");
         }else {
-            System.out.println("索引存在即将删除");
-            deleteIndex(INDEX_TEST);
+            System.out.println("索引存在Refresh索引");
+
+            refreshIndex(INDEX_TEST);
 
         }
 
@@ -57,15 +62,20 @@ public class Elastic_DeleteIndex {
         return exists;
     }
     /**
-     * 删除索引
+     *  Refresh索引
      * @param index
      * @throws IOException
      */
-    public void deleteIndex(String index) throws IOException {
+    public void refreshIndex(String index) throws IOException {
 
-        DeleteIndexRequest request=new DeleteIndexRequest(index);
-        request.timeout(TimeValue.timeValueMillis(2));
-        AcknowledgedResponse acknowledgedResponse = restHighLevelClient.indices().delete(request, RequestOptions.DEFAULT);
-        System.out.println("删除索引信息: " + JSON.toJSONString(acknowledgedResponse));
+        //单个索引
+        RefreshRequest request=new RefreshRequest(index);
+//        //多个索引
+//        RefreshRequest requestMultiple=new RefreshRequest("index1","index2");
+//        //所有索引
+//        RefreshRequest requestAll=new RefreshRequest();
+
+        request.indicesOptions(IndicesOptions.lenientExpandOpen());
+        System.out.println("索引 Refresh信息: " + JSON.toJSONString(request));
     }
 }
