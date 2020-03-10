@@ -20,7 +20,7 @@ import java.util.Map;
 
 @SpringBootTest
 @Slf4j
-public class ElasticCreateIndex_2Test {
+public class Elastic_CreateIndex_2 {
 
     /**
      * 基于配置创建索引

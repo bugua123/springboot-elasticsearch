@@ -41,10 +41,7 @@ public class Elastic_GetIndex {
         }else {
             System.out.println("索引存在 ");
             getIndex(INDEX_TEST);
-
         }
-
-
     }
 
     /**
