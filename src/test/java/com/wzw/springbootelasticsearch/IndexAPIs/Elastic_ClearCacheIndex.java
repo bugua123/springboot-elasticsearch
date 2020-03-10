@@ -69,8 +69,8 @@ public class Elastic_ClearCacheIndex {
     public void clearcacheIndex(String index) throws IOException {
 
         //单个索引
-
         ClearIndicesCacheRequest request=new ClearIndicesCacheRequest(index);
+
 ////        //多个索引
 //        ClearIndicesCacheRequest requestMultiple=new ClearIndicesCacheRequest("index1","index2");
 //        //所有索引
