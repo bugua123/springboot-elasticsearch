@@ -4,8 +4,9 @@ import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.ElasticsearchException;
 import org.elasticsearch.action.admin.indices.cache.clear.ClearIndicesCacheRequest;
-
 import org.elasticsearch.action.admin.indices.cache.clear.ClearIndicesCacheResponse;
+import org.elasticsearch.action.admin.indices.forcemerge.ForceMergeRequest;
+import org.elasticsearch.action.admin.indices.forcemerge.ForceMergeResponse;
 import org.elasticsearch.action.support.DefaultShardOperationFailedException;
 import org.elasticsearch.action.support.IndicesOptions;
 import org.elasticsearch.client.RequestOptions;
@@ -21,13 +22,13 @@ import java.io.IOException;
 
 /**
  * 1、判断索引是否存在
- *    如果存在，ClearCache 索引
+ *    如果存在，ForceMerge 索引
  *
  *
  */
 @SpringBootTest
 @Slf4j
-public class Elastic_ClearCacheIndex {
+public class Elastic_Force_MergeIndex {
 
 @Autowired
     RestHighLevelClient restHighLevelClient;
@@ -40,9 +41,9 @@ public class Elastic_ClearCacheIndex {
         if (!existsIndex(INDEX_TEST)) {
             System.out.println("索引不存在 ");
         }else {
-            System.out.println("索引存在 ClearCache 索引");
+            System.out.println("索引存在 forceMerge 索引");
 
-            clearcacheIndex(INDEX_TEST);
+            forceMergeIndex(INDEX_TEST);
 
         }
 
@@ -66,36 +67,33 @@ public class Elastic_ClearCacheIndex {
      * @param index
      * @throws IOException
      */
-    public void clearcacheIndex(String index) throws IOException {
+    public void forceMergeIndex(String index) throws IOException {
 
         //单个索引
 
-        ClearIndicesCacheRequest request=new ClearIndicesCacheRequest(index);
+        ForceMergeRequest request=new ForceMergeRequest(index);
 ////        //多个索引
-//        ClearIndicesCacheRequest requestMultiple=new ClearIndicesCacheRequest("index1","index2");
+//        ForceMergeRequest requestMultiple=new ForceMergeRequest("index1","index2");
 //        //所有索引
-//        ClearIndicesCacheRequest requestAll=new ClearIndicesCacheRequest();
+//        ForceMergeRequest requestAll=new ForceMergeRequest();
 
         request.indicesOptions(IndicesOptions.lenientExpandOpen());
-        request.queryCache(true);
-        request.fieldDataCache(true);
-        request.requestCache(true);
+        request.maxNumSegments(1);
+        request.onlyExpungeDeletes(true);
+        request.flush(true);
 
-//        request.fields("field1", "field2", "field3");
-        System.out.println("索引 ClearCache 信息: " + JSON.toJSONString(request));
-
+        System.out.println("索引 forceMergeIndex 信息: " + JSON.toJSONString(request));
 
         try {
-            ClearIndicesCacheResponse clearIndicesCacheResponse = restHighLevelClient.indices().clearCache(request, RequestOptions.DEFAULT);
-            int totalShards = clearIndicesCacheResponse.getTotalShards();
-            int successfulShards = clearIndicesCacheResponse.getSuccessfulShards();
-            int failedShards = clearIndicesCacheResponse.getFailedShards();
-            DefaultShardOperationFailedException[] failures = clearIndicesCacheResponse.getShardFailures();
-            System.out.println("索引 ClearCache 信息 totalShards: " + totalShards);
-            System.out.println("索引 ClearCache 信息 successfulShards: " + successfulShards);
-            System.out.println("索引 ClearCache 信息 failedShards: " + failedShards);
-            System.out.println("索引 ClearCache 信息 DefaultShardOperationFailedException: " + JSON.toJSONString(failures));
-
+            ForceMergeResponse forceMergeResponse= restHighLevelClient.indices().forcemerge(request, RequestOptions.DEFAULT);
+            int totalShards = forceMergeResponse.getTotalShards();
+            int successfulShards = forceMergeResponse.getSuccessfulShards();
+            int failedShards = forceMergeResponse.getFailedShards();
+            DefaultShardOperationFailedException[] failures = forceMergeResponse.getShardFailures();
+            System.out.println("索引 forceMergeIndex 信息 totalShards: " + totalShards);
+            System.out.println("索引 forceMergeIndex 信息 successfulShards: " + successfulShards);
+            System.out.println("索引 forceMergeIndex 信息 failedShards: " + failedShards);
+            System.out.println("索引 forceMergeIndex 信息 DefaultShardOperationFailedException: " + JSON.toJSONString(failures));
 
         } catch (ElasticsearchException exception) {
             if (exception.status() == RestStatus.NOT_FOUND) {
