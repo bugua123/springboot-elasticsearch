@@ -61,7 +61,6 @@ public class Elastic_CloseIndex {
      * @throws IOException
      */
     public void closeIndex(String index) throws IOException {
-
         CloseIndexRequest request=new CloseIndexRequest(index);
 //        request.timeout(TimeValue.timeValueMillis(2));//可以按照这种样式添加参数
         CloseIndexResponse closeIndexResponse = restHighLevelClient.indices().close(request, RequestOptions.DEFAULT);
