@@ -54,8 +54,7 @@ public class Document_Delete_Index {
 
             }
             if (shardInfo.getFailed() > 0) {
-                for (ReplicationResponse.ShardInfo.Failure failure :
-                        shardInfo.getFailures()) {
+                for (ReplicationResponse.ShardInfo.Failure failure : shardInfo.getFailures()) {
                     String reason = failure.reason();
                 }
             }
