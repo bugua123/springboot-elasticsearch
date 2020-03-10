@@ -49,8 +49,8 @@ public class Document_Get_Index {
 
         try {
             GetRequest request = new GetRequest(
-                    "posts",
-                    "1");
+                    index,
+                    "bvrIU2kfSAWKQHycnLZG1w");
 
             request.fetchSourceContext(FetchSourceContext.DO_NOT_FETCH_SOURCE);
 
@@ -68,7 +68,7 @@ public class Document_Get_Index {
             request.version(2);
             request.versionType(VersionType.EXTERNAL);
             GetResponse getResponse = restHighLevelClient.get(request, RequestOptions.DEFAULT);
-            String message = getResponse.getField("message").getValue();
+//            String message = getResponse.getField("message").getValue();
 
             String index_ = getResponse.getIndex();
             String id_ = getResponse.getId();
@@ -80,7 +80,7 @@ public class Document_Get_Index {
             } else {
 
             }
-            System.out.println("message:"+message);
+            System.out.println("getResponse:"+getResponse);
         } catch (ElasticsearchException exception) {
             if (exception.status() == RestStatus.NOT_FOUND) {
 
