@@ -40,7 +40,7 @@ public class Document_Index {
 
     @Test
     public void testIndex() throws IOException {
-        // 判断是否存在索引
+
         String INDEX_TEST="goods_1";
         documentIndex(INDEX_TEST);
 
