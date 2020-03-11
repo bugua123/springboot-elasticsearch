@@ -1,4 +1,4 @@
-package com.wzw.springbootelasticsearch.IndexAPIs;
+package com.wzw.springbootelasticsearch;
 
 import com.alibaba.fastjson.JSON;
 

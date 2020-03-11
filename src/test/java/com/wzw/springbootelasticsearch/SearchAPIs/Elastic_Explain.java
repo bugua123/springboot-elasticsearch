@@ -20,6 +20,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.sound.midi.SoundbankResource;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -92,6 +93,7 @@ public class Elastic_Explain {
                 boolean hasExplanation = explainResponse.hasExplanation();
                 Explanation explanation = explainResponse.getExplanation();
                 GetResult getResult = explainResponse.getGetResult();
+                System.out.println("测试输出");
             }
 
             @Override
