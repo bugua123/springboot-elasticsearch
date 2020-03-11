@@ -57,8 +57,9 @@ public class Elastic_Search_Scroll {
         SearchRequest searchRequest = new SearchRequest("goods");
         searchRequest.scroll(scroll);
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+
         searchSourceBuilder.size(10);
-//        searchSourceBuilder.query(matchQuery("title", "Elasticsearch"));
+//        searchSourceBuilder.query(QueryBuilders.matchQuery("title", "Elasticsearch"));
         searchRequest.source(searchSourceBuilder);
 
         SearchResponse searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
@@ -93,7 +94,7 @@ public class Elastic_Search_Scroll {
         searchRequest.scroll(scroll);
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
         searchSourceBuilder.size(10);
-//        searchSourceBuilder.query(matchQuery("title", "Elasticsearch"));
+//        searchSourceBuilder.query(QueryBuilders.matchQuery("title", "Elasticsearch"));
         searchRequest.source(searchSourceBuilder);
 
         SearchResponse searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
