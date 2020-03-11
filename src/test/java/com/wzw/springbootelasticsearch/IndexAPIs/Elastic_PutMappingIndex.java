@@ -21,7 +21,7 @@ import java.util.Map;
 
 @SpringBootTest
 @Slf4j
-public class Elastic_PutMappingIndexTest {
+public class Elastic_PutMappingIndex {
 
     /**
      * 基于配置修改索引
