@@ -72,6 +72,8 @@ public class Elastic_Ranking_Evaluation {
         PrecisionAtK.Detail detail= (PrecisionAtK.Detail) metricDetails;
 
 
+
+
     }
 
     //异步执行

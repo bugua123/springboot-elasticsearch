@@ -9,6 +9,7 @@ import org.elasticsearch.action.explain.ExplainResponse;
 import org.elasticsearch.client.Cancellable;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.common.document.DocumentField;
 import org.elasticsearch.index.get.GetResult;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.TermQueryBuilder;
@@ -59,6 +60,9 @@ public class Elastic_Explain {
         Explanation explanation = response.getExplanation();
         GetResult getResult = response.getGetResult();
 
+
+        Map<String, Object> source = getResult.getSource();
+        Map<String, DocumentField> fields = getResult.getFields();
 
     }
 
