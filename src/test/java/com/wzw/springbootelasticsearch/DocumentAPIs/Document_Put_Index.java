@@ -32,7 +32,7 @@ import java.util.Map;
 
 @SpringBootTest
 @Slf4j
-public class Document_Index {
+public class Document_Put_Index {
 
 @Autowired
     RestHighLevelClient restHighLevelClient;
