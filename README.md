@@ -7,3 +7,15 @@ springboot 整合 elasticsearch
 ## Document APIs
 
 ## IndexAPIs
+
+## ClusterAPIs
+
+## IndexLifcycleManagementAPIs
+
+## IngestAPIs
+
+## RollupAPIs
+
+##ScriptAPIs
+
+。。。 。。。
